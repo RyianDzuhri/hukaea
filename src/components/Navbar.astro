@@ -107,15 +107,19 @@ import logoDesa from "../assets/images/logo-desa.png";
 
 /* Saat discroll */
 .navbar-scrolled {
-    background: rgba(255,255,255,.65);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    /* Naikkan opacity ke 85% - 90% agar background tidak terlalu bening */
+    background: rgba(255, 255, 255, 0.88); 
+    
+    /* Efek blur + kejenuhan warna di belakangnya */
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
 
-    border-bottom: 1px solid rgba(255,255,255,.3);
+    /* Border tipis agar lebih bertekstur */
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
 
-    box-shadow: 0 8px 30px rgba(0,0,0,.08);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
 
-    color: #1e293b;
+    color: #0f172a; /* Warna teks agak sedikit lebih gelap agar tegas */
 }
 
 .navbar-scrolled a:hover {
