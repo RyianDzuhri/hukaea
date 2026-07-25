@@ -13,7 +13,7 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  site: 'https://ryiandzuhri.github.io',
+  site: 'http://desahukaea.web.id/',
   base: '/hukaea',
 
   vite: {
