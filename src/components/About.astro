@@ -6,8 +6,9 @@ import aboutImage from "../assets/images/about-desa.jpg";
 
 <section
     id="profil"
-    class="relative overflow-hidden py-32"
+    class="relative overflow-hidden py-20 md:py-24 lg:py-32"
 >
+
     <!-- Background Blur -->
 
     <div
@@ -20,28 +21,38 @@ import aboutImage from "../assets/images/about-desa.jpg";
 
     <div class="container relative z-10 mx-auto px-6">
 
-        <div class="grid items-center gap-20 lg:grid-cols-[0.7fr_1.3fr]">
+        <div
+            class="grid gap-12 lg:grid-cols-[0.7fr_1.3fr] lg:items-center"
+        >
 
             <!-- FOTO -->
 
-            <div class="relative mx-auto w-full max-w-[380px]">
+            <div
+                class="relative mx-auto w-full max-w-sm lg:max-w-[380px]"
+            >
 
                 <img
                     src={aboutImage.src}
                     alt="Desa Hukaea"
-                    class="h-[470px] w-full rounded-[30px] object-cover shadow-[0_20px_60px_rgba(0,0,0,.12)]"
+                    class="aspect-[4/5] w-full rounded-[30px] object-cover shadow-[0_20px_60px_rgba(0,0,0,.12)]"
                 />
 
                 <div
-                    class="absolute bottom-5 right-5 rounded-2xl border border-white/40 bg-white/90 px-5 py-4 backdrop-blur-xl shadow-lg"
+                    class="absolute bottom-4 right-4 rounded-2xl border border-white/40 bg-white/90 px-4 py-3 backdrop-blur-xl shadow-lg md:bottom-5 md:right-5 md:px-5 md:py-4"
                 >
-                    <p class="text-xs text-gray-500">
+
+                    <p
+                        class="text-xs text-gray-500"
+                    >
                         Kabupaten
                     </p>
 
-                    <h3 class="text-lg font-bold text-slate-900">
+                    <h3
+                        class="text-base font-bold text-slate-900 md:text-lg"
+                    >
                         Bombana
                     </h3>
+
                 </div>
 
             </div>
@@ -57,38 +68,47 @@ import aboutImage from "../assets/images/about-desa.jpg";
                 </span>
 
                 <h2
-                    class="mt-6 max-w-3xl text-5xl font-black leading-tight text-slate-900"
+                    class="mt-6 max-w-3xl text-3xl font-black leading-tight text-slate-900 md:text-4xl lg:text-5xl"
                 >
-                    Membangun Desa yang Modern, Transparan, dan Berkelanjutan.
+                    Membangun Desa yang Modern,
+                    Transparan, dan Berkelanjutan.
                 </h2>
 
                 <p
-                    class="mt-8 max-w-3xl text-lg leading-9 text-slate-600"
+                    class="mt-6 max-w-3xl text-base leading-8 text-slate-600 md:text-lg md:leading-9"
                 >
                     {village.about.description}
                 </p>
 
-                <div class="mt-10 grid gap-5 sm:grid-cols-2">
+                <div
+                    class="mt-8 grid gap-5 sm:grid-cols-2"
+                >
 
                     {
                         village.about.highlights.map((item) => (
-                            <div class="flex items-center gap-4">
+
+                            <div
+                                class="flex items-start gap-4"
+                            >
 
                                 <div
-                                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-green-100"
+                                    class="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-green-100"
                                 >
+
                                     <Check
                                         class="h-5 w-5 text-green-700"
                                     />
+
                                 </div>
 
                                 <span
-                                    class="text-base text-slate-700"
+                                    class="leading-7 text-slate-700"
                                 >
                                     {item}
                                 </span>
 
                             </div>
+
                         ))
                     }
 
@@ -96,8 +116,9 @@ import aboutImage from "../assets/images/about-desa.jpg";
 
                 <a
                     href="#potensi"
-                    class="group mt-12 inline-flex items-center gap-3 rounded-2xl bg-green-600 px-8 py-4 font-semibold text-white transition-all duration-300 hover:bg-green-700 hover:shadow-xl"
+                    class="group mt-10 inline-flex items-center gap-3 rounded-2xl bg-green-600 px-7 py-4 font-semibold text-white transition-all duration-300 hover:bg-green-700 hover:shadow-xl"
                 >
+
                     Jelajahi Potensi Desa
 
                     <ArrowRight
