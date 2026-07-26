@@ -1,23 +1,37 @@
 ---
-import { ImageOff } from "lucide-astro";
+import { ImageOff, ArrowRight } from "lucide-astro";
 import { village } from "../data/village";
+
+// Ambil semua gambar dari folder src/assets/images/
+const allImages = import.meta.glob<{ default: { src: string } }>('/src/assets/images/**/*.{jpeg,jpg,png,gif,webp}', { eager: true });
+
+// Petakan gambar ke masing-masing kategori berdasarkan foldernya
+const galleryData = village.gallery.map(category => {
+    // Karena kita tidak tahu ekstensi apa saja yang ada, kita cek folder prefix
+    const folderPath = `/src/assets/images/${category.folder}/`;
+    const categoryImages = Object.entries(allImages)
+        .filter(([path]) => path.startsWith(folderPath))
+        .map(([_, module]) => module.default.src);
+        
+    return {
+        title: category.title,
+        folder: category.folder,
+        images: categoryImages.length > 0 ? categoryImages : (category.image ? [category.image] : [])
+    };
+});
 ---
 
 <section
     id="galeri"
     class="relative overflow-hidden bg-slate-50 py-32"
 >
-
     <!-- Background -->
     <div class="absolute -left-40 top-0 h-96 w-96 rounded-full bg-green-100/60 blur-[120px]"></div>
     <div class="absolute -right-40 bottom-0 h-96 w-96 rounded-full bg-emerald-100/60 blur-[120px]"></div>
 
     <div class="container relative z-10 mx-auto px-6">
-
         <!-- Heading -->
-
         <div class="mx-auto max-w-3xl text-center">
-
             <span
                 class="inline-flex rounded-full bg-green-100 px-5 py-2 text-sm font-semibold text-green-700"
             >
@@ -36,38 +50,39 @@ import { village } from "../data/village";
                 Dokumentasi berbagai kegiatan, potensi, dan suasana
                 Desa Hukaea.
             </p>
-
         </div>
 
         <!-- Gallery -->
-
         <div
+            id="gallery-container"
+            data-gallery={JSON.stringify(galleryData)}
             class="mt-20 grid gap-8 lg:grid-cols-[2fr_1fr]"
         >
-
-            <!-- Hero Image -->
-
+            <!-- Hero Image Preview -->
             <div
-                id="gallery-preview"
                 class="group relative overflow-hidden rounded-[36px] bg-white shadow-[0_25px_70px_rgba(0,0,0,.08)]"
             >
-
                 <!-- Gambar Preview -->
                 <img
                     id="preview-image"
                     src=""
                     alt=""
-                    class="hidden h-[500px] w-full object-cover transition-opacity duration-300"
+                    class="hidden h-[500px] w-full object-cover transition-opacity duration-500"
                 />
+
+                <!-- Title Overlay (selalu tampil saat ada gambar) -->
+                <div id="preview-overlay" class="hidden absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-8">
+                    <h3 id="overlay-title" class="text-3xl font-bold text-white shadow-sm">
+                        {galleryData[0]?.title}
+                    </h3>
+                </div>
 
                 <!-- Placeholder -->
                 <div
                     id="preview-placeholder"
                     class="flex h-[500px] items-center justify-center bg-gradient-to-br from-green-50 via-white to-green-100"
                 >
-
                     <div class="text-center">
-
                         <div
                             class="mx-auto flex h-28 w-28 items-center justify-center rounded-[28px] bg-green-100"
                         >
@@ -80,28 +95,22 @@ import { village } from "../data/village";
                             id="preview-title"
                             class="mt-8 text-3xl font-bold text-slate-900"
                         >
-                            {village.gallery[0].title}
+                            {galleryData[0]?.title}
                         </h3>
 
                         <p class="mt-3 text-slate-500">
-                            Foto akan ditampilkan di sini.
+                            Belum ada foto di kategori ini.
                         </p>
-
                     </div>
-
                 </div>
-
             </div>
 
-            <!-- Thumbnail -->
-
+            <!-- Thumbnail / Category List -->
             <div
                 class="space-y-5"
             >
-
                 {
-                    village.gallery.map((item, index) => (
-
+                    galleryData.map((item, index) => (
                         <button
                             type="button"
                             class={`gallery-item w-full overflow-hidden rounded-3xl border transition-all duration-300 ${
@@ -109,121 +118,149 @@ import { village } from "../data/village";
                                     ? "border-green-500 shadow-lg"
                                     : "border-transparent hover:border-green-300"
                             }`}
-                            data-title={item.title}
-                            data-image={item.image ?? ""}
+                            data-index={index}
                         >
-
                             <div
-                                class="flex h-18 items-center gap-3 bg-white px-4"
+                                class="flex h-18 items-center gap-3 bg-white px-4 py-2"
                             >
-
                                 <div
-                                    class="flex h-14 w-14 items-center justify-center rounded-xl bg-green-100"
+                                    class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-green-100"
                                 >
-
-                                    <ImageOff
-                                        class="h-10 w-10 text-green-600"
-                                    />
-
+                                    {item.images.length > 0 ? (
+                                        <img src={item.images[0]} class="h-full w-full object-cover rounded-xl" alt={item.title} />
+                                    ) : (
+                                        <ImageOff
+                                            class="h-8 w-8 text-green-600"
+                                        />
+                                    )}
                                 </div>
 
                                 <div
                                     class="text-left"
                                 >
-
                                     <h3
                                         class="font-semibold text-slate-900"
                                     >
                                         {item.title}
                                     </h3>
-
                                     <p
                                         class="mt-1 text-sm text-slate-500"
                                     >
-                                        Dokumentasi Desa
+                                        {item.images.length} Foto
                                     </p>
-
                                 </div>
-
                             </div>
-
                         </button>
-
                     ))
                 }
-
             </div>
-
         </div>
 
+        <!-- Button Lihat Lebih Banyak -->
+        <div class="mt-16 text-center flex justify-center">
+            <a
+                href="/dokumentasi"
+                class="group inline-flex items-center gap-2 rounded-full bg-green-600 px-8 py-4 text-lg font-semibold text-white transition-all hover:bg-green-700 hover:shadow-lg hover:shadow-green-200"
+            >
+                Lihat Lebih Banyak Dokumentasi
+                <ArrowRight class="h-5 w-5 transition-transform group-hover:translate-x-1" />
+            </a>
+        </div>
     </div>
-
 </section>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-
-    const previewImage = document.getElementById("preview-image");
+    const container = document.getElementById("gallery-container");
+    const previewImage = document.getElementById("preview-image") as HTMLImageElement;
     const previewPlaceholder = document.getElementById("preview-placeholder");
     const previewTitle = document.getElementById("preview-title");
+    const previewOverlay = document.getElementById("preview-overlay");
+    const overlayTitle = document.getElementById("overlay-title");
+    
+    if (!container || !previewImage || !previewPlaceholder || !previewTitle || !previewOverlay || !overlayTitle) return;
 
-    if (!previewImage || !previewPlaceholder || !previewTitle) return;
-
+    // Ambil data JSON dari atribut
+    const galleryDataStr = container.getAttribute("data-gallery");
+    if (!galleryDataStr) return;
+    
+    const galleryData = JSON.parse(galleryDataStr);
     const items = document.querySelectorAll(".gallery-item");
 
+    let slideInterval: number | null = null;
+    let currentCategoryIndex = 0;
+    let currentImageIndex = 0;
+
+    function startSlideshow(categoryIndex: number) {
+        // Hentikan interval lama jika ada
+        if (slideInterval) clearInterval(slideInterval);
+        
+        currentCategoryIndex = categoryIndex;
+        currentImageIndex = 0;
+        
+        const category = galleryData[categoryIndex];
+        const images = category.images;
+        
+        overlayTitle.textContent = category.title;
+        previewTitle.textContent = category.title;
+
+        if (images && images.length > 0) {
+            // Tampilkan gambar pertama
+            previewImage.src = images[0];
+            previewImage.classList.remove("hidden");
+            previewOverlay.classList.remove("hidden");
+            previewPlaceholder.classList.add("hidden");
+            previewImage.classList.remove("opacity-0");
+
+            // Jika gambar lebih dari 1, mulai interval rotasi
+            if (images.length > 1) {
+                slideInterval = window.setInterval(() => {
+                    // Fade out
+                    previewImage.classList.add("opacity-0");
+                    
+                    setTimeout(() => {
+                        currentImageIndex = (currentImageIndex + 1) % images.length;
+                        previewImage.src = images[currentImageIndex];
+                        // Fade in
+                        previewImage.classList.remove("opacity-0");
+                    }, 500); // Setengah detik untuk transisi css
+                }, 3000); // Ganti gambar setiap 3 detik
+            }
+        } else {
+            // Jika tidak ada gambar
+            previewImage.classList.add("hidden");
+            previewOverlay.classList.add("hidden");
+            previewPlaceholder.classList.remove("hidden");
+        }
+    }
+
+    // Event listener untuk tombol kategori
     items.forEach((item) => {
-
         item.addEventListener("click", () => {
-
-            // Hapus status aktif
+            // Hapus status aktif dari semua
             items.forEach((el) => {
-                el.classList.remove(
-                    "border-green-500",
-                    "shadow-lg"
-                );
-
+                el.classList.remove("border-green-500", "shadow-lg");
                 el.classList.add("border-transparent");
             });
 
-            // Aktifkan thumbnail yang dipilih
+            // Aktifkan yang diklik
             item.classList.remove("border-transparent");
-            item.classList.add(
-                "border-green-500",
-                "shadow-lg"
-            );
+            item.classList.add("border-green-500", "shadow-lg");
 
-            const title = item.getAttribute("data-title") || "";
-            const image = item.getAttribute("data-image") || "";
-
+            const index = parseInt(item.getAttribute("data-index") || "0", 10);
+            
+            // Fade out the current view before starting new slideshow
             previewImage.classList.add("opacity-0");
-
+            
             setTimeout(() => {
-
-                previewTitle.textContent = title;
-
-                if (image !== "") {
-
-                    previewImage.setAttribute("src", image);
-
-                    previewImage.classList.remove("hidden");
-
-                    previewPlaceholder.classList.add("hidden");
-
-                } else {
-
-                    previewImage.classList.add("hidden");
-
-                    previewPlaceholder.classList.remove("hidden");
-
-                }
-
-                previewImage.classList.remove("opacity-0");
-
-            }, 200);
-
+                startSlideshow(index);
+            }, 300);
         });
-
     });
 
+    // Mulai slideshow untuk kategori pertama saat halaman dimuat
+    if (galleryData.length > 0) {
+        startSlideshow(0);
+    }
 });
 </script>

@@ -1,0 +1,215 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import { village } from "../data/village";
+import { ImageOff, ChevronRight, Home, X } from "lucide-astro";
+
+// Dapatkan semua gambar
+const allImages = import.meta.glob<{ default: { src: string } }>('/src/assets/images/**/*.{jpeg,jpg,png,gif,webp}', { eager: true });
+
+const documentationImages = Object.entries(allImages).map(([path, module]) => {
+    const parts = path.split('/');
+    const folder = parts[parts.length - 2]; 
+    
+    // Server-side random spans
+    const rand = Math.random();
+    let spanClass = "col-span-1 row-span-1";
+    if (rand > 0.9) {
+        spanClass = "col-span-2 row-span-2";
+    } else if (rand > 0.8) {
+        spanClass = "col-span-1 row-span-2";
+    } else if (rand > 0.6) {
+        spanClass = "col-span-2 row-span-1";
+    }
+    
+    return {
+        // Pada Astro, image import mengembalikan object metadata. Kita ambil .src nya.
+        src: module.default?.src || (module.default as unknown as string),
+        folder: folder,
+        spanClass: spanClass
+    };
+}).filter(item => item.folder !== 'images' && item.src); 
+
+const categories = village.gallery.map(g => ({ title: g.title, folder: g.folder }));
+const filters = [{ title: "Semua", folder: "semua" }, ...categories];
+---
+
+<MainLayout title={`Dokumentasi - ${village.name}`}>
+    <section class="min-h-screen bg-slate-50 pt-16 pb-20">
+        <div class="container mx-auto px-4 md:px-6">
+            
+            <!-- Header Ringkas (Lebih naik) -->
+            <div class="mb-10 text-center">
+                <div class="flex items-center justify-center gap-2 text-sm text-slate-500 mb-3">
+                    <a href="/" class="hover:text-green-600 flex items-center gap-1 transition-colors">
+                        <Home class="w-4 h-4" /> Beranda
+                    </a>
+                    <ChevronRight class="w-4 h-4 opacity-50" />
+                    <span class="text-slate-900 font-medium">Dokumentasi</span>
+                </div>
+                <h1 class="text-3xl md:text-4xl font-black text-slate-900">
+                    Galeri Dokumentasi
+                </h1>
+            </div>
+            
+            <!-- Filters -->
+            <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-12">
+                {filters.map((filter, index) => (
+                    <button
+                        class={`filter-btn px-5 py-2 md:px-6 md:py-2.5 rounded-full text-xs md:text-sm font-semibold transition-all duration-300 border ${
+                            index === 0 
+                                ? "bg-green-600 text-white border-green-600 shadow-md hover:bg-green-700" 
+                                : "bg-white text-slate-600 border-slate-200 hover:border-green-300 hover:text-green-600"
+                        }`}
+                        data-filter={filter.folder}
+                    >
+                        {filter.title}
+                    </button>
+                ))}
+            </div>
+
+            <!-- Hack agar Tailwind mendeteksi class ini meski di-generate dinamis di server -->
+            <div class="hidden col-span-1 col-span-2 row-span-1 row-span-2"></div>
+
+            <!-- Mosaic Grid -->
+            {documentationImages.length > 0 ? (
+                <div class="custom-mosaic-grid grid grid-cols-2 md:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-6" id="masonry-grid">
+                    {documentationImages.map((img) => (
+                        <div class={`grid-item relative rounded-xl md:rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer bg-slate-200 ${img.spanClass}`} data-category={img.folder} data-src={img.src}>
+                            <img 
+                                src={img.src} 
+                                alt={`Dokumentasi ${img.folder}`} 
+                                class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110" 
+                                loading="lazy"
+                            />
+                            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10 pointer-events-none">
+                                <span class="text-white text-xs md:text-sm font-medium tracking-wider uppercase border border-white/50 px-3 py-1.5 md:px-4 md:py-2 rounded-full backdrop-blur-sm shadow-lg">
+                                    Lihat
+                                </span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <div class="text-center py-20 bg-white rounded-3xl border border-dashed border-slate-300 shadow-sm max-w-2xl mx-auto">
+                    <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-slate-50 mb-4">
+                        <ImageOff class="h-10 w-10 text-slate-400" />
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800">Belum Ada Dokumentasi</h3>
+                    <p class="mt-2 text-slate-500">Silakan tambahkan gambar ke dalam folder src/assets/images/</p>
+                </div>
+            )}
+
+        </div>
+    </section>
+
+    <!-- Lightbox Modal (Sangat Ringan) -->
+    <div id="lightbox" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/95 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+        <button id="lightbox-close" class="absolute top-6 right-6 text-white/70 hover:text-white transition-colors bg-white/10 hover:bg-white/20 p-2 rounded-full backdrop-blur-md">
+            <X class="w-6 h-6 md:w-8 md:h-8" />
+        </button>
+        <img id="lightbox-img" src="" alt="Fullscreen View" class="max-h-[90vh] max-w-[95vw] object-contain rounded-lg shadow-2xl transform scale-95 transition-transform duration-300" />
+    </div>
+</MainLayout>
+
+<style>
+    /* CSS khusus untuk memastikan tinggi baris grid konsisten dan terisi padat */
+    .custom-mosaic-grid {
+        grid-auto-flow: dense;
+        grid-auto-rows: 150px;
+    }
+    
+    @media (min-width: 768px) {
+        .custom-mosaic-grid {
+            grid-auto-rows: 200px;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const filterBtns = document.querySelectorAll(".filter-btn");
+        const gridItems = document.querySelectorAll(".grid-item");
+
+        // Lightbox Logic
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImg = document.getElementById("lightbox-img") as HTMLImageElement;
+        const lightboxClose = document.getElementById("lightbox-close");
+
+        const openLightbox = (src: string) => {
+            lightboxImg.src = src;
+            lightbox?.classList.remove("hidden");
+            lightbox?.classList.add("flex");
+            // Sedikit delay agar efek transisi CSS berjalan lancar
+            setTimeout(() => {
+                lightbox?.classList.remove("opacity-0");
+                lightboxImg?.classList.remove("scale-95");
+                lightboxImg?.classList.add("scale-100");
+            }, 10);
+            document.body.style.overflow = 'hidden'; // Mencegah scrolling halaman belakang
+        };
+
+        const closeLightbox = () => {
+            lightbox?.classList.add("opacity-0");
+            lightboxImg?.classList.remove("scale-100");
+            lightboxImg?.classList.add("scale-95");
+            setTimeout(() => {
+                lightbox?.classList.add("hidden");
+                lightbox?.classList.remove("flex");
+                lightboxImg.src = ""; // Bersihkan src memori
+            }, 300);
+            document.body.style.overflow = ''; // Kembalikan scrolling
+        };
+
+        // Event listener klik gambar
+        gridItems.forEach(item => {
+            item.addEventListener("click", () => {
+                const src = item.getAttribute("data-src");
+                if (src) openLightbox(src);
+            });
+        });
+
+        // Event listener tutup popup
+        lightboxClose?.addEventListener("click", closeLightbox);
+        lightbox?.addEventListener("click", (e) => {
+            if (e.target === lightbox) closeLightbox(); // Tutup jika klik area hitam (bukan gambarnya)
+        });
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") closeLightbox(); // Tutup dengan tombol Esc
+        });
+
+        // Filter Logic
+        filterBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                // Remove active classes
+                filterBtns.forEach(b => {
+                    b.classList.remove("bg-green-600", "text-white", "border-green-600", "shadow-md");
+                    b.classList.add("bg-white", "text-slate-600", "border-slate-200");
+                });
+
+                // Add active class to clicked button
+                btn.classList.remove("bg-white", "text-slate-600", "border-slate-200");
+                btn.classList.add("bg-green-600", "text-white", "border-green-600", "shadow-md");
+
+                const filterValue = btn.getAttribute("data-filter");
+
+                // Filter items
+                gridItems.forEach(item => {
+                    const el = item as HTMLElement;
+                    if (filterValue === "semua" || el.getAttribute("data-category") === filterValue) {
+                        el.style.display = "block";
+                        setTimeout(() => {
+                            el.style.opacity = "1";
+                            el.style.transform = "scale(1)";
+                        }, 10);
+                    } else {
+                        el.style.opacity = "0";
+                        el.style.transform = "scale(0.9)";
+                        setTimeout(() => {
+                            el.style.display = "none";
+                        }, 300);
+                    }
+                });
+            });
+        });
+    });
+</script>

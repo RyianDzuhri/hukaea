@@ -26,6 +26,18 @@ export const village = {
             "Pelayanan publik berbasis digital",
         ],
     },
+    vision: "Mewujudkan Desa Hukaea yang maju, mandiri, sejahtera, dan berkelanjutan.",
+
+    missions: [
+        "Meningkatkan kualitas pelayanan publik.",
+        "Mengembangkan sektor pertanian dan perikanan.",
+        "Meningkatkan kualitas sumber daya manusia.",
+        "Membangun infrastruktur desa secara merata.",
+        "Mewujudkan pemerintahan yang transparan dan akuntabel."
+    ],
+    organization: {
+        image: "/images/struktur-organisasi.webp",
+    },
 
     potentials: [
         {
@@ -45,26 +57,32 @@ export const village = {
     gallery: [
         {
             title: "Kantor Desa",
+            folder: "kantor-desa",
             image: null,
         },
         {
             title: "Persawahan",
+            folder: "persawahan",
             image: null,
         },
         {
             title: "Perikanan",
+            folder: "perikanan",
             image: null,
         },
         {
             title: "Kegiatan Masyarakat",
+            folder: "kegiatan-masyarakat",
             image: null,
         },
         {
             title: "Pemandangan Desa",
+            folder: "pemandangan-desa",
             image: null,
         },
         {
             title: "Fasilitas Umum",
+            folder: "fasilitas-umum",
             image: null,
         },
     ],

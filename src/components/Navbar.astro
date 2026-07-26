@@ -1,8 +1,10 @@
 ---
 import logoDesa from "../assets/images/logo-desa.png";
+import { Menu } from "lucide-astro";
 ---
 
 <header id="navbar" class="navbar">
+
     <div class="container mx-auto flex h-20 items-center justify-between px-6">
 
         <!-- Logo -->
@@ -11,30 +13,31 @@ import logoDesa from "../assets/images/logo-desa.png";
             <img
                 src={logoDesa.src}
                 alt="Logo Desa"
-                class="h-12 w-12 object-contain"
+                class="h-11 w-11 object-contain"
             />
 
             <div class="leading-tight">
-                <h1 class="font-bold text-xl">
+
+                <h1 class="text-xl font-bold">
                     Desa Hukaea
                 </h1>
 
                 <p class="text-sm">
                     Website Resmi Desa
                 </p>
+
             </div>
 
         </a>
 
-        <!-- Menu -->
+        <!-- Desktop -->
         <nav class="hidden md:flex items-center gap-8">
 
             <a href="#beranda">Beranda</a>
-
             <a href="#profil">Profil</a>
-
+            <a href="#visi-misi">Visi & Misi</a>
+            <a href="#organisasi">Organisasi</a>
             <a href="#potensi">Potensi</a>
-
             <a href="#galeri">Galeri</a>
 
             <a href="#kontak" class="btn-kontak">
@@ -43,26 +46,72 @@ import logoDesa from "../assets/images/logo-desa.png";
 
         </nav>
 
+        <!-- Mobile -->
+        <button
+            id="menuBtn"
+            class="md:hidden"
+        >
+            <Menu class="h-8 w-8" />
+        </button>
+
     </div>
+
+    <!-- Dropdown HP -->
+
+    <div id="mobileMenu" class="mobile-menu">
+
+        <a href="#beranda">Beranda</a>
+
+        <a href="#profil">Profil</a>
+
+        <a href="#visi-misi">Visi & Misi</a>
+
+        <a href="#organisasi">Struktur Organisasi</a>
+
+        <a href="#potensi">Potensi</a>
+
+        <a href="#galeri">Galeri</a>
+
+        <a href="#kontak">
+            Kontak
+        </a>
+
+    </div>
+
 </header>
 
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const navbar = document.getElementById("navbar");
+document.addEventListener("DOMContentLoaded", () => {
 
-        if (!navbar) return;
+    const navbar = document.getElementById("navbar")!;
+    const menuBtn = document.getElementById("menuBtn")!;
+    const mobileMenu = document.getElementById("mobileMenu")!;
 
-        const onScroll = () => {
-            if (window.scrollY > 20) {
-                navbar.classList.add("navbar-scrolled");
-            } else {
-                navbar.classList.remove("navbar-scrolled");
-            }
-        };
+    if (!navbar || !menuBtn || !mobileMenu) return;
 
-        onScroll();
-        window.addEventListener("scroll", onScroll);
+    function handleScroll() {
+        if (window.scrollY > 20) {
+            navbar.classList.add("navbar-scrolled");
+        } else {
+            navbar.classList.remove("navbar-scrolled");
+        }
+    }
+
+    menuBtn.addEventListener("click", () => {
+        mobileMenu.classList.toggle("show");
     });
+
+    mobileMenu.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+            mobileMenu.classList.remove("show");
+        });
+    });
+
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll);
+
+});
 </script>
 
 <style>
@@ -72,58 +121,47 @@ import logoDesa from "../assets/images/logo-desa.png";
     left: 0;
     width: 100%;
     z-index: 999;
-
     color: white;
-
     background: transparent;
-
-    transition:
-        background .35s ease,
-        backdrop-filter .35s ease,
-        box-shadow .35s ease,
-        color .35s ease;
+    transition: all .3s ease;
 }
 
 .navbar a {
     color: inherit;
-    transition: color .3s;
+    text-decoration: none;
+    transition: .25s;
 }
 
 .navbar a:hover {
-    color: #bbf7d0;
+    color: #16a34a;
 }
 
+/* Tombol Kontak */
+
 .btn-kontak {
-    border: 1px solid rgba(255,255,255,.7);
     padding: .75rem 1.4rem;
     border-radius: 999px;
-    transition: .3s;
+    border: 1px solid rgba(255,255,255,.7);
+    transition: .25s;
 }
 
 .btn-kontak:hover {
     background: white;
-    color: #166534 !important;
+    color: #16a34a !important;
 }
 
-/* Saat discroll */
+/* Navbar saat scroll */
+
 .navbar-scrolled {
-    /* Naikkan opacity ke 85% - 90% agar background tidak terlalu bening */
-    background: rgba(255, 255, 255, 0.88); 
-    
-    /* Efek blur + kejenuhan warna di belakangnya */
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background: rgba(255,255,255,.85);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
 
-    /* Border tipis agar lebih bertekstur */
-    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    border-bottom: 1px solid rgba(255,255,255,.3);
 
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    color: #0f172a;
 
-    color: #0f172a; /* Warna teks agak sedikit lebih gelap agar tegas */
-}
-
-.navbar-scrolled a:hover {
-    color: #16a34a;
+    box-shadow: 0 8px 25px rgba(0,0,0,.08);
 }
 
 .navbar-scrolled .btn-kontak {
@@ -134,5 +172,76 @@ import logoDesa from "../assets/images/logo-desa.png";
 .navbar-scrolled .btn-kontak:hover {
     background: #16a34a;
     color: white !important;
+}
+
+/* ========================= */
+/* MOBILE MENU */
+/* ========================= */
+
+.mobile-menu {
+    display: none;
+}
+
+@media (max-width: 767px) {
+
+    .mobile-menu {
+
+        display: block;
+
+        position: absolute;
+
+        top: 80px;
+
+        left: 16px;
+
+        right: 16px;
+
+        background: white;
+
+        border-radius: 18px;
+
+        overflow: hidden;
+
+        box-shadow: 0 20px 40px rgba(0,0,0,.12);
+
+        max-height: 0;
+
+        opacity: 0;
+
+        transition: .35s ease;
+    }
+
+    .mobile-menu.show {
+
+        max-height: 600px;
+
+        opacity: 1;
+    }
+
+    .mobile-menu a {
+
+        display: block;
+
+        padding: 18px 22px;
+
+        color: #0f172a;
+
+        font-weight: 600;
+
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .mobile-menu a:last-child {
+
+        border-bottom: none;
+    }
+
+    .mobile-menu a:hover {
+
+        background: #f0fdf4;
+
+        color: #16a34a;
+    }
+
 }
 </style>
