@@ -1,103 +1,113 @@
 ---
+import { Image } from "astro:assets";
 import { gallery } from "../data/gallery";
 
+// Mengambil 8 foto pertama untuk preview
 const previewGallery = gallery.slice(0, 8);
 ---
 
 <section
-    id="galeri"
-    class="relative overflow-hidden bg-slate-50 py-32"
+  id="galeri"
+  class="relative overflow-hidden bg-slate-50 py-24 md:py-32"
 >
-    <!-- Background -->
-    <div
-        class="absolute -left-40 top-0 h-[420px] w-[420px] rounded-full bg-green-100 blur-[140px]"
-    />
+  <!-- Background Glow Decorative Elements -->
+  <div
+    class="absolute -left-40 top-0 h-[420px] w-[420px] rounded-full bg-green-200/40 blur-[140px] pointer-events-none"
+  ></div>
+  <div
+    class="absolute -right-40 bottom-0 h-[420px] w-[420px] rounded-full bg-emerald-200/40 blur-[140px] pointer-events-none"
+  ></div>
 
-    <div
-        class="absolute -right-40 bottom-0 h-[420px] w-[420px] rounded-full bg-emerald-100 blur-[140px]"
-    />
+  <div class="container relative z-10 mx-auto px-6">
+    <!-- Header Section -->
+    <div class="mx-auto max-w-3xl text-center">
+      <span
+        class="inline-flex rounded-full bg-green-100 px-5 py-2 text-sm font-semibold text-green-800 shadow-sm"
+      >
+        Galeri Desa
+      </span>
 
-    <div class="container relative z-10 mx-auto px-6">
+      <h2
+        class="mt-6 text-4xl font-black text-slate-900 md:text-5xl tracking-tight"
+      >
+        Dokumentasi Desa Hukaea
+      </h2>
 
-        <!-- Heading -->
-
-        <div class="mx-auto max-w-3xl text-center">
-
-            <span
-                class="inline-flex rounded-full bg-green-100 px-5 py-2 text-sm font-semibold text-green-700"
-            >
-                Galeri Desa
-            </span>
-
-            <h2
-                class="mt-6 text-4xl font-black text-slate-900 md:text-5xl"
-            >
-                Dokumentasi Desa Hukaea
-            </h2>
-
-            <p
-                class="mt-6 text-lg leading-8 text-slate-500"
-            >
-                Dokumentasi berbagai kegiatan, fasilitas, potensi,
-                dan keindahan Desa Hukaea.
-            </p>
-
-        </div>
-
-        <!-- Gallery -->
-
-        <div
-            class="mx-auto mt-16 grid max-w-7xl gap-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-        >
-
-            {
-                previewGallery.map((photo) => (
-
-                    <div
-                        class="group overflow-hidden rounded-[26px] bg-white shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
-                    >
-
-                        <div
-                            class="relative aspect-[4/5] overflow-hidden"
-                        >
-
-                            <img
-                                src={photo.image.src}
-                                width={photo.image.width}
-                                height={photo.image.height}
-                                alt="Galeri Desa Hukaea"
-                                loading="lazy"
-                                class="h-full w-full object-cover transition duration-700 group-hover:scale-110"
-                            />
-
-                            <!-- Overlay -->
-
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 transition duration-500 group-hover:opacity-100"
-                            />
-
-                        </div>
-
-                    </div>
-
-                ))
-            }
-
-        </div>
-
-        <!-- Button -->
-
-        <div class="mt-14 text-center">
-
-            <a
-                href="/gallery"
-                class="inline-flex rounded-full bg-green-600 px-8 py-4 font-semibold text-white transition hover:bg-green-700"
-            >
-                Lihat Seluruh Galeri
-            </a>
-
-        </div>
-
+      <p class="mt-6 text-lg leading-relaxed text-slate-600">
+        Potret berbagai kegiatan masyarakat, fasilitas umum, keindahan alam, dan
+        potensi unggulan yang ada di Desa Hukaea.
+      </p>
     </div>
 
+    <!-- Gallery Grid -->
+    <div
+      class="mx-auto mt-16 grid max-w-7xl gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+    >
+      {
+        previewGallery.map((photo) => (
+          <div
+            class="group relative overflow-hidden rounded-3xl bg-slate-200 shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
+          >
+            <div class="relative aspect-[4/5] w-full overflow-hidden">
+              <!-- 1. Optimasi Gambar dengan Komponen Astro <Image /> -->
+              <Image
+                src={photo.image}
+                alt={photo.title}
+                widths={[300, 500]}
+                sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                format="webp"
+                quality={80}
+                loading="lazy"
+                class="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-110"
+              />
+
+              <!-- 2. Gradient Overlay Halus -->
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              ></div>
+
+              <!-- 3. Informasi Foto Saat Hover -->
+              <div
+                class="absolute inset-0 flex flex-col justify-end p-5 text-white opacity-0 transition-all duration-300 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0"
+              >
+                <!-- Badge Kategori -->
+                <span class="inline-block self-start rounded-md bg-green-500/80 px-2.5 py-1 text-xs font-medium backdrop-blur-md capitalize">
+                  {photo.category}
+                </span>
+
+                <!-- Judul Foto -->
+                <h3 class="mt-2 text-base font-semibold text-white line-clamp-2 leading-snug">
+                  {photo.title}
+                </h3>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- CTA Button -->
+    <div class="mt-14 text-center">
+      <a
+        href="/gallery"
+        class="inline-flex items-center gap-2 rounded-full bg-green-600 px-8 py-4 font-semibold text-white shadow-lg shadow-green-600/30 transition-all duration-300 hover:bg-green-500 hover:shadow-green-500/50 hover:-translate-y-0.5 active:translate-y-0"
+      >
+        <span>Lihat Seluruh Galeri</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M14 5l7 7m0 0l-7 7m7-7H3"
+          />
+        </svg>
+      </a>
+    </div>
+  </div>
 </section>

@@ -1,59 +1,80 @@
 ---
-import hero from "../assets/images/hero.jpg";
+import { Image } from "astro:assets";
+import heroImage from "../assets/images/hero.jpg";
 import { village } from "../data/village";
 ---
 
-<section id="beranda" class="relative h-screen">
-    <img
-        src={hero.src}
-        alt="Desa"
-        class="absolute inset-0 w-full h-full object-cover"
-    />
+<section id="beranda" class="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-900">
+  <!-- 1. Optimasi Gambar Hero dengan astro:assets -->
+  <Image
+    src={heroImage}
+    alt={`Pemandangan ${village.name}`}
+    widths={[640, 1024, 1920]}
+    sizes="100vw"
+    format="webp"
+    quality={85}
+    loading="eager"
+    fetchpriority="high"
+    class="absolute inset-0 h-full w-full object-cover object-center scale-105 animate-fade-in"
+  />
 
-    <div class="absolute inset-0 bg-black/50"></div>
+  <!-- 2. Overlay Gradient yang Lebih Halus & Estetik -->
+  <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-slate-950/30"></div>
 
-    <div class="relative z-10 container mx-auto h-full flex items-center">
+  <!-- 3. Konten Utama Hero -->
+  <div class="relative z-10 container mx-auto px-6 py-32 flex items-center">
+    <div class="max-w-3xl text-white">
 
-        <div class="max-w-3xl text-white">
+      <!-- Badge Desa -->
+      <div class="inline-flex items-center gap-2 rounded-full border border-green-500/30 bg-green-500/10 px-4 py-1.5 backdrop-blur-md">
+        <span class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></span>
+        <span class="text-xs md:text-sm font-semibold tracking-widest text-green-300 uppercase">
+          Website Resmi
+        </span>
+      </div>
 
-            <span class="uppercase tracking-[6px] text-green-300 font-semibold">
-                Website Resmi
-            </span>
+      <!-- Nama Desa -->
+      <h1 class="mt-6 text-4xl sm:text-6xl md:text-7xl font-black tracking-tight leading-[1.1] text-white drop-shadow-sm">
+        {village.name}
+      </h1>
 
-            <h1 class="mt-4 text-6xl md:text-7xl font-bold leading-tight">
+      <!-- Slogan -->
+      <p class="mt-6 text-lg sm:text-xl text-slate-200 leading-relaxed max-w-2xl font-normal">
+        {village.slogan}
+      </p>
 
-                {village.name}
+      <!-- Tombol Aksi (CTA) -->
+      <div class="mt-10 flex flex-wrap gap-4 items-center">
+        <a
+          href="#profil"
+          class="inline-flex items-center justify-center gap-2 rounded-xl bg-green-600 px-8 py-4 font-semibold text-white shadow-lg shadow-green-600/30 transition-all duration-300 hover:bg-green-500 hover:shadow-green-500/50 hover:-translate-y-0.5 active:translate-y-0"
+        >
+          <span>Jelajahi Desa</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </a>
 
-            </h1>
-
-            <p class="mt-6 text-xl text-gray-200 leading-relaxed">
-
-                {village.slogan}
-
-            </p>
-
-            <div class="mt-10 flex gap-4">
-
-                <a
-                    href="#profil"
-                    class="bg-green-600 hover:bg-green-700 px-8 py-4 rounded-xl font-semibold transition">
-
-                    Jelajahi Desa
-
-                </a>
-
-                <a
-                    href="#kontak"
-                    class="border border-white px-8 py-4 rounded-xl hover:bg-white hover:text-black transition">
-
-                    Hubungi Kami
-
-                </a>
-
-            </div>
-
-        </div>
+        <a
+          href="#kontak"
+          class="inline-flex items-center justify-center rounded-xl border border-white/30 bg-white/10 px-8 py-4 font-semibold text-white backdrop-blur-md transition-all duration-300 hover:bg-white hover:text-slate-900 hover:-translate-y-0.5 active:translate-y-0"
+        >
+          Hubungi Kami
+        </a>
+      </div>
 
     </div>
+  </div>
 
+  <!-- Indicator Scroll Down (Opsional) -->
+  <a
+    href="#profil"
+    class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-white/70 hover:text-white transition-colors duration-300"
+    aria-label="Scroll ke profil desa"
+  >
+    <span class="text-xs tracking-widest uppercase font-medium">Scroll</span>
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </a>
 </section>
