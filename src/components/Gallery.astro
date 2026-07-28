@@ -49,10 +49,10 @@ const previewGallery = gallery.slice(0, 8);
             class="group relative overflow-hidden rounded-3xl bg-slate-200 shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
           >
             <div class="relative aspect-[4/5] w-full overflow-hidden">
-              <!-- 1. Optimasi Gambar dengan Komponen Astro <Image /> -->
+              <!-- Optimasi Gambar dengan Komponen Astro <Image /> -->
               <Image
                 src={photo.image}
-                alt={photo.title}
+                alt={`Dokumentasi ${photo.category} Desa Hukaea`}
                 widths={[300, 500]}
                 sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 format="webp"
@@ -61,24 +61,18 @@ const previewGallery = gallery.slice(0, 8);
                 class="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-110"
               />
 
-              <!-- 2. Gradient Overlay Halus -->
+              <!-- Gradient Overlay Halus -->
               <div
-                class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
               ></div>
 
-              <!-- 3. Informasi Foto Saat Hover -->
+              <!-- HANYA Menampilkan Badge Kategori saat Hover (Tanpa Nama File) -->
               <div
-                class="absolute inset-0 flex flex-col justify-end p-5 text-white opacity-0 transition-all duration-300 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0"
+                class="absolute inset-0 flex items-end p-5 opacity-0 transition-all duration-300 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0"
               >
-                <!-- Badge Kategori -->
-                <span class="inline-block self-start rounded-md bg-green-500/80 px-2.5 py-1 text-xs font-medium backdrop-blur-md capitalize">
+                <span class="inline-block rounded-full bg-green-600/90 px-3 py-1 text-xs font-medium text-white backdrop-blur-md capitalize tracking-wide shadow-sm">
                   {photo.category}
                 </span>
-
-                <!-- Judul Foto -->
-                <h3 class="mt-2 text-base font-semibold text-white line-clamp-2 leading-snug">
-                  {photo.title}
-                </h3>
               </div>
             </div>
           </div>
