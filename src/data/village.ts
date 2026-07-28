@@ -2,15 +2,15 @@ export const village = {
     name: "Desa Hukaea",
 
     slogan:
-        "Mewujudkan desa yang informatif, transparan, serta memanfaatkan teknologi digital untuk pelayanan masyarakat.",
+        "Mewujudkan desa yang informatif, transparan, serta memanfaatkan teknologi digital untuk pelayanan informasi masyarakat.",
 
     description:
-        "Website resmi Desa Hukaea sebagai media informasi, publikasi potensi desa, serta sarana pelayanan informasi kepada masyarakat.",
+        "Website profil resmi Desa Hukaea sebagai media informasi, publikasi potensi desa, serta sarana pelayanan informasi kepada masyarakat.",
 
     statistics: {
         population: 1450,
         households: 385,
-        hamlets: 5,
+        hamlets: 3,
         area: "12,5 km²",
         umkm: 42,
     },
