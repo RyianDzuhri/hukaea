@@ -1,103 +1,110 @@
 ---
+import { Image } from "astro:assets";
 import { ArrowUpRight } from "lucide-astro";
 import { village } from "../data/village";
 
 import sawah from "../assets/images/potensi-sawah.jpg";
 import perikanan from "../assets/images/potensi-perikanan.jpg";
 
+// Array gambar potensi desa
 const images = [sawah, perikanan];
 ---
 
 <section
-    id="potensi"
-    class="relative overflow-hidden bg-slate-50 py-32"
+  id="potensi"
+  class="relative overflow-hidden bg-slate-50 py-24 md:py-32"
 >
-    <!-- Background Blur -->
-    <div class="absolute -left-40 top-0 h-96 w-96 rounded-full bg-green-100/60 blur-[120px]"></div>
-    <div class="absolute -right-40 bottom-0 h-96 w-96 rounded-full bg-emerald-100/60 blur-[120px]"></div>
+  <!-- Decorative Blur Background -->
+  <div
+    class="absolute -left-40 top-0 h-96 w-96 rounded-full bg-green-200/40 blur-[120px] pointer-events-none"
+  ></div>
+  <div
+    class="absolute -right-40 bottom-0 h-96 w-96 rounded-full bg-emerald-200/40 blur-[120px] pointer-events-none"
+  ></div>
 
-    <div class="container relative z-10 mx-auto px-6">
+  <div class="container relative z-10 mx-auto px-6">
+    <!-- Heading -->
+    <div class="mx-auto max-w-3xl text-center">
+      <span
+        class="inline-flex rounded-full bg-green-100 px-5 py-2 text-sm font-semibold text-green-800 shadow-sm"
+      >
+        Potensi Desa
+      </span>
 
-        <!-- Heading -->
-        <div class="mx-auto max-w-3xl text-center">
+      <h2
+        class="mt-6 text-4xl font-black text-slate-900 md:text-5xl tracking-tight"
+      >
+        Potensi Unggulan Desa Hukaea
+      </h2>
 
-            <span class="inline-flex rounded-full bg-green-100 px-5 py-2 text-sm font-semibold text-green-700">
-                Potensi Desa
-            </span>
-
-            <h2 class="mt-6 text-5xl font-black tracking-tight text-slate-900">
-                Potensi Unggulan Desa Hukaea
-            </h2>
-
-            <p class="mt-6 text-lg leading-8 text-slate-500">
-                Desa Hukaea memiliki berbagai potensi yang menjadi sumber
-                penghidupan masyarakat serta mendukung pembangunan ekonomi desa.
-            </p>
-
-        </div>
-
-        <!-- Cards -->
-        <div class="mx-auto mt-16 grid max-w-7xl gap-10 lg:grid-cols-2">
-
-            {
-                village.potentials.map((item, index) => {
-                    return (
-                        <div
-                            class="group overflow-hidden rounded-3xl bg-white shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
-                        >
-
-                            <!-- Gambar -->
-
-                            <div class="relative overflow-hidden">
-
-                                <img
-                                    src={images[index].src}
-                                    alt={item.title}
-                                    class="h-[420px] w-full object-cover transition duration-700 group-hover:scale-105"
-                                />
-
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"
-                                />
-
-                            </div>
-
-                            <!-- Content -->
-
-                            <div class="p-8">
-
-                                <h3
-                                    class="text-3xl font-bold text-slate-900"
-                                >
-                                    {item.title}
-                                </h3>
-
-                                <p
-                                    class="mt-5 leading-8 text-slate-600"
-                                >
-                                    {item.description}
-                                </p>
-
-                                <button
-                                    class="mt-8 inline-flex items-center gap-2 rounded-full bg-green-600 px-6 py-3 font-semibold text-white transition hover:bg-green-700"
-                                >
-
-                                    Selengkapnya
-
-                                    <ArrowUpRight
-                                        class="h-5 w-5"
-                                    />
-
-                                </button>
-
-                            </div>
-
-                        </div>
-                    );
-                })
-            }
-
-        </div>
-
+      <p class="mt-6 text-lg leading-relaxed text-slate-600">
+        Desa Hukaea memiliki berbagai potensi unggulan yang menjadi sumber
+        penghidupan utama masyarakat serta pendorong pertumbuhan ekonomi desa.
+      </p>
     </div>
+
+    <!-- Potential Cards Grid -->
+    <div class="mx-auto mt-16 grid max-w-7xl gap-8 lg:grid-cols-2">
+      {
+        village.potentials.map((item, index) => {
+          // Menghindari error out-of-bounds jika jumlah data lebih banyak dari gambar
+          const imageSrc = images[index % images.length];
+
+          return (
+            <div
+              class="group flex flex-col overflow-hidden rounded-3xl bg-white shadow-lg border border-slate-100 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
+            >
+              <!-- Container Gambar dengan <Image /> -->
+              <div class="relative h-[280px] sm:h-[360px] w-full overflow-hidden bg-slate-200">
+                <Image
+                  src={imageSrc}
+                  alt={item.title}
+                  widths={[400, 800]}
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  format="webp"
+                  quality={85}
+                  loading="lazy"
+                  class="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105"
+                />
+
+                <!-- Vignette Overlay -->
+                <div
+                  class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-slate-950/10 to-transparent"
+                ></div>
+
+                <!-- Badge Indeks/Nomor -->
+                <div class="absolute top-4 left-4 rounded-full bg-white/90 px-3.5 py-1 text-xs font-bold text-slate-800 shadow-md backdrop-blur-md">
+                  0{index + 1}
+                </div>
+              </div>
+
+              <!-- Content Area -->
+              <div class="flex flex-1 flex-col justify-between p-8">
+                <div>
+                  <h3 class="text-2xl sm:text-3xl font-bold text-slate-900 group-hover:text-green-600 transition-colors duration-300">
+                    {item.title}
+                  </h3>
+
+                  <p class="mt-4 leading-relaxed text-slate-600">
+                    {item.description}
+                  </p>
+                </div>
+
+                <!-- Action Link / Button -->
+                <div class="mt-8 pt-4 border-t border-slate-100">
+                  <a
+                    href="#kontak"
+                    class="inline-flex items-center gap-2 rounded-full bg-green-600 px-6 py-3 font-semibold text-white shadow-md shadow-green-600/20 transition-all duration-300 hover:bg-green-500 hover:shadow-green-500/40 hover:gap-3 active:translate-y-0"
+                  >
+                    <span>Pelajari Selengkapnya</span>
+                    <ArrowUpRight class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
 </section>
