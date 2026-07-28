@@ -54,39 +54,6 @@ export const village = {
         },
     ],
 
-    gallery: [
-        {
-            title: "Kantor Desa",
-            folder: "kantor-desa",
-            image: null,
-        },
-        {
-            title: "Persawahan",
-            folder: "persawahan",
-            image: null,
-        },
-        {
-            title: "Perikanan",
-            folder: "perikanan",
-            image: null,
-        },
-        {
-            title: "Kegiatan Masyarakat",
-            folder: "kegiatan-masyarakat",
-            image: null,
-        },
-        {
-            title: "Pemandangan Desa",
-            folder: "pemandangan-desa",
-            image: null,
-        },
-        {
-            title: "Fasilitas Umum",
-            folder: "fasilitas-umum",
-            image: null,
-        },
-    ],
-
     contact: {
         address:
             "Desa Hukaea, Kecamatan Rarowatu Utara, Kabupaten Bombana, Sulawesi Tenggara",
