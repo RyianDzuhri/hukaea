@@ -1,5 +1,6 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
+import { Image } from "astro:assets"; // 1. Import komponen Image bawaan Astro
 import { gallery } from "../data/gallery";
 
 // Daftar rasio aspek acak untuk memvariasikan ukuran gambar
@@ -68,7 +69,7 @@ const aspectRatios = [
 
       </div>
 
-      <!-- Gallery (Masonry Grid with Random Sizes) -->
+      <!-- Gallery (Masonry Grid dengan Komponen Astro Image) -->
 
       <div
         id="gallery"
@@ -78,20 +79,26 @@ const aspectRatios = [
         {
           gallery.map((photo, index) => {
             const randomAspect = aspectRatios[index % aspectRatios.length];
+            // Mengambil URL hasil optimasi Astro untuk keperluan Lightbox
+            const optimizedSrc = typeof photo.image === "string" ? photo.image : photo.image.src;
             
             return (
               <button
                 class="gallery-item group relative block w-full overflow-hidden rounded-3xl break-inside-avoid cursor-pointer focus:outline-none"
                 data-category={photo.category}
-                data-src={photo.image.src}
+                data-src={optimizedSrc}
                 data-title={photo.title || "Dokumentasi Desa"}
                 data-index={index}
               >
 
-                <img
-                  src={photo.image.src}
-                  alt={photo.title || "Foto Galeri"}
-                  loading="lazy"
+                <!-- Komponen Astro Image untuk Otomatis Kompres & Resize -->
+                <Image
+                  src={photo.image}
+                  alt={photo.title || "Foto Galeri Desa Hukaea"}
+                  width={600}
+                  format="webp"
+                  quality={80}
+                  loading={index < 4 ? "eager" : "lazy"}
                   class={`w-full object-cover transition duration-500 group-hover:scale-105 ${randomAspect}`}
                 />
 
@@ -270,7 +277,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateLightbox(index);
     lightbox.classList.remove("hidden");
     lightbox.classList.add("flex");
-    document.body.style.overflow = "hidden"; // Stop scroll latar belakang
+    document.body.style.overflow = "hidden";
   }
 
   function closeLightbox() {
