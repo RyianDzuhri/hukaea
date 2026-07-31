@@ -2,16 +2,16 @@ export const village = {
     name: "Desa Hukaea",
 
     slogan:
-        "Mewujudkan desa yang informatif, transparan, serta memanfaatkan teknologi digital untuk pelayanan informasi masyarakat.",
+        "Mewujudkan desa yang informatif, transparan, serta memanfaatkan teknologi digital untuk pelayanan masyarakat.",
 
     description:
-        "Website profil resmi Desa Hukaea sebagai media informasi, publikasi potensi desa, serta sarana pelayanan informasi kepada masyarakat.",
+        "Website resmi Desa Hukaea sebagai media informasi, publikasi potensi desa, serta sarana pelayanan informasi kepada masyarakat.",
 
     statistics: {
-        population: 843,
+        population: 1450,
         households: 385,
         hamlets: 3,
-        area: "766.000 ㎡",
+        area: "12,5 km²",
         umkm: 42,
     },
 
@@ -26,15 +26,18 @@ export const village = {
             "Pelayanan publik berbasis digital",
         ],
     },
-    vision: "Mewujudkan Desa Hukaea yang maju, mandiri, sejahtera, dan berkelanjutan.",
+
+    vision: "Mewujudkan Desa Hukaea Yang Aman, Sehat, Cerdas, Berdaya Saing, Berbudaya dan Berahlak Mulia",
 
     missions: [
-        "Meningkatkan kualitas pelayanan publik.",
-        "Mengembangkan sektor pertanian dan perikanan.",
-        "Meningkatkan kualitas sumber daya manusia.",
-        "Membangun infrastruktur desa secara merata.",
-        "Mewujudkan pemerintahan yang transparan dan akuntabel."
+        "Mewujudkan keamanan dan ketertiban sehingga tercipta kehidupan yang harmonis dan tentram dalam kehidupan berbudaya dan beragama.",
+        "Meningkatkan kesehatan dan kebersihan Desa.",
+        "Mewujudkan dan meningkatkan serta meneruskan tata kelola pemerintah Desa yang baik.",
+        "Meningkatkan pelayanan yang maksimal pada masyarakat Desa dan daya saing Desa.",
+        "Meningkatkan kesejahteraan masyarakat Desa.",
+        "Meningkatkan sarana dan prasarana dari segi fisik, ekonomi, pendidikan, kesehatan dan kebudayaan di Desa."
     ],
+    
     organization: {
         image: "/images/struktur-organisasi.webp",
     },
@@ -50,6 +53,39 @@ export const village = {
             title: "Perikanan",
             description:
                 "Sebagian masyarakat Desa Hukaea berprofesi sebagai nelayan. Potensi perikanan menjadi salah satu sektor unggulan yang mendukung mata pencaharian dan ketahanan ekonomi masyarakat pesisir.",
+            image: null,
+        },
+    ],
+
+    gallery: [
+        {
+            title: "Kantor Desa",
+            folder: "kantor-desa",
+            image: null,
+        },
+        {
+            title: "Persawahan",
+            folder: "persawahan",
+            image: null,
+        },
+        {
+            title: "Perikanan",
+            folder: "perikanan",
+            image: null,
+        },
+        {
+            title: "Kegiatan Masyarakat",
+            folder: "kegiatan-masyarakat",
+            image: null,
+        },
+        {
+            title: "Pemandangan Desa",
+            folder: "pemandangan-desa",
+            image: null,
+        },
+        {
+            title: "Fasilitas Umum",
+            folder: "fasilitas-umum",
             image: null,
         },
     ],
@@ -73,4 +109,12 @@ export const village = {
             "08.00 - 16.00 WITA",
         ],
     },
+
+    infographics: [
+        {
+            title: "Infografis APBDes 2024",
+            description: "Ringkasan Anggaran Pendapatan dan Belanja Desa (APBDes) Tahun 2024 Desa Hukaea yang menampilkan rincian pendapatan, belanja, dan pembiayaan secara transparan.",
+            image: "image.png",
+        }
+    ],
 };

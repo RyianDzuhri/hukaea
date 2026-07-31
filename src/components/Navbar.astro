@@ -1,14 +1,19 @@
 ---
 import logoDesa from "../assets/images/logo-desa.png";
 import { Menu } from "lucide-astro";
+
+export interface Props {
+    alwaysScrolled?: boolean;
+}
+const { alwaysScrolled = false } = Astro.props;
 ---
 
-<header id="navbar" class="navbar">
+<header id="navbar" class:list={["navbar", { "navbar-scrolled": alwaysScrolled }]} data-always-scrolled={alwaysScrolled.toString()}>
 
     <div class="container mx-auto flex h-20 items-center justify-between px-6">
 
         <!-- Logo -->
-        <a href="#beranda" class="flex items-center gap-3">
+        <a href="/" class="flex items-center gap-3">
 
             <img
                 src={logoDesa.src}
@@ -33,14 +38,15 @@ import { Menu } from "lucide-astro";
         <!-- Desktop -->
         <nav class="hidden md:flex items-center gap-8">
 
-            <a href="#beranda">Beranda</a>
-            <a href="#profil">Profil</a>
-            <a href="#visi-misi">Visi & Misi</a>
-            <a href="#organisasi">Organisasi</a>
-            <a href="#potensi">Potensi</a>
-            <a href="#galeri">Galeri</a>
+            <a href="/#beranda">Beranda</a>
+            <a href="/#profil">Profil</a>
+            <a href="/#visi-misi">Visi & Misi</a>
+            <a href="/#organisasi">Organisasi</a>
+            <a href="/#potensi">Potensi</a>
+            <a href="/infografis">Infografis</a>
+            <a href="/#galeri">Galeri</a>
 
-            <a href="#kontak" class="btn-kontak">
+            <a href="/#kontak" class="btn-kontak">
                 Kontak
             </a>
 
@@ -60,19 +66,21 @@ import { Menu } from "lucide-astro";
 
     <div id="mobileMenu" class="mobile-menu">
 
-        <a href="#beranda">Beranda</a>
+        <a href="/#beranda">Beranda</a>
 
-        <a href="#profil">Profil</a>
+        <a href="/#profil">Profil</a>
 
-        <a href="#visi-misi">Visi & Misi</a>
+        <a href="/#visi-misi">Visi & Misi</a>
 
-        <a href="#organisasi">Struktur Organisasi</a>
+        <a href="/#organisasi">Struktur Organisasi</a>
 
-        <a href="#potensi">Potensi</a>
+        <a href="/#potensi">Potensi</a>
 
-        <a href="#galeri">Galeri</a>
+        <a href="/infografis">Infografis</a>
 
-        <a href="#kontak">
+        <a href="/#galeri">Galeri</a>
+
+        <a href="/#kontak">
             Kontak
         </a>
 
@@ -89,8 +97,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!navbar || !menuBtn || !mobileMenu) return;
 
+    const alwaysScrolled = navbar.getAttribute("data-always-scrolled") === "true";
+
     function handleScroll() {
-        if (window.scrollY > 20) {
+        if (alwaysScrolled || window.scrollY > 20) {
             navbar.classList.add("navbar-scrolled");
         } else {
             navbar.classList.remove("navbar-scrolled");

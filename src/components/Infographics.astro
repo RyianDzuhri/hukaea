@@ -1,0 +1,130 @@
+---
+import { Image } from "astro:assets";
+import { village } from "../data/village";
+import imagePng from "../assets/images/infografis/image.png";
+
+const infographics = village.infographics;
+---
+
+<section id="infografis" class="relative overflow-hidden bg-white py-24 md:py-32">
+  <div class="absolute -left-40 top-0 h-[420px] w-[420px] rounded-full bg-blue-200/40 blur-[140px] pointer-events-none"></div>
+  <div class="absolute -right-40 bottom-0 h-[420px] w-[420px] rounded-full bg-indigo-200/40 blur-[140px] pointer-events-none"></div>
+
+  <div class="container relative z-10 mx-auto px-6">
+    <div class="mx-auto max-w-3xl text-center">
+      <span class="inline-flex rounded-full bg-green-100 px-5 py-2 text-sm font-semibold text-green-800 shadow-sm">
+        Infografis
+      </span>
+      <h2 class="mt-6 text-4xl font-black text-slate-900 md:text-5xl tracking-tight">
+        Transparansi & Informasi
+      </h2>
+      <p class="mt-6 text-lg leading-relaxed text-slate-600">
+        Informasi visual mengenai berbagai program, anggaran, dan capaian Desa Hukaea untuk mewujudkan transparansi publik.
+      </p>
+    </div>
+
+    <div class="mx-auto mt-16 grid max-w-lg gap-8 md:max-w-none md:grid-cols-2 lg:grid-cols-3 justify-center">
+      {
+        infographics.map((info, index) => (
+          <div 
+            class="group cursor-pointer rounded-3xl bg-slate-50 p-4 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border border-slate-100 flex flex-col"
+            onclick={`document.getElementById('modal-infografis-${index}').showModal()`}
+          >
+            <div class="relative w-full overflow-hidden rounded-2xl bg-slate-200 aspect-[4/5]">
+              <Image 
+                src={imagePng} 
+                alt={info.title} 
+                class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100 backdrop-blur-sm">
+                <span class="rounded-full bg-white/20 px-6 py-2.5 text-sm font-medium text-white backdrop-blur-md border border-white/30 flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                  Lihat Detail
+                </span>
+              </div>
+            </div>
+            <div class="mt-6 px-2 pb-2 flex-1 flex flex-col">
+              <h3 class="text-xl font-bold text-slate-800">{info.title}</h3>
+              <p class="mt-2 line-clamp-3 text-sm text-slate-600 leading-relaxed">{info.description}</p>
+            </div>
+          </div>
+
+          <!-- Dialog Modal (Side-by-side layout) -->
+          <dialog id={`modal-infografis-${index}`} class="backdrop:bg-black/90 backdrop:backdrop-blur-sm p-0 mx-auto w-[95vw] max-w-7xl h-[90vh] bg-transparent open:animate-in open:fade-in-0 open:zoom-in-95 m-auto rounded-3xl overflow-hidden shadow-2xl border border-white/10">
+            <div class="relative w-full h-full flex flex-col lg:flex-row bg-white">
+              
+              <button 
+                onclick={`document.getElementById('modal-infografis-${index}').close()`}
+                class="absolute right-4 top-4 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-700 shadow-sm transition-colors hover:bg-slate-200 hover:text-red-500"
+                aria-label="Close"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+              
+              <!-- Bagian Gambar -->
+              <div class="w-full lg:w-[70%] h-[50vh] lg:h-full bg-slate-900 flex items-center justify-center p-4 lg:p-8 overflow-auto">
+                <Image 
+                  src={imagePng} 
+                  alt={info.title}
+                  class="w-full h-full object-contain transition-all duration-300"
+                  style="cursor: zoom-in;"
+                  onclick="
+                    if(this.classList.contains('object-contain')) {
+                      this.classList.remove('object-contain', 'w-full', 'h-full');
+                      this.classList.add('max-w-none');
+                      this.style.cursor = 'zoom-out';
+                    } else {
+                      this.classList.add('object-contain', 'w-full', 'h-full');
+                      this.classList.remove('max-w-none');
+                      this.style.cursor = 'zoom-in';
+                    }
+                  "
+                />
+              </div>
+
+              <!-- Bagian Teks -->
+              <div class="w-full lg:w-[30%] h-[40vh] lg:h-full bg-white p-8 overflow-y-auto border-l border-slate-200 flex flex-col">
+                <h3 class="text-2xl font-bold text-slate-900 pr-8">{info.title}</h3>
+                <div class="mt-4 h-1 w-12 bg-green-500 rounded-full"></div>
+                <p class="mt-6 text-base text-slate-600 leading-relaxed">
+                  {info.description}
+                </p>
+                
+                <div class="mt-auto pt-8">
+                  <p class="text-xs text-slate-400 italic mb-4">
+                    * Klik pada gambar di samping untuk memperbesar (zoom).
+                  </p>
+                  <form method="dialog">
+                    <button class="w-full rounded-xl bg-slate-900 py-3.5 font-semibold text-white transition-colors hover:bg-slate-800">
+                      Tutup
+                    </button>
+                  </form>
+                </div>
+              </div>
+
+            </div>
+          </dialog>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  dialog::backdrop {
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(8px);
+  }
+  
+  /* Sembunyikan scrollbar tapi tetap bisa scroll untuk modal image */
+  dialog .overflow-y-auto::-webkit-scrollbar {
+    width: 8px;
+  }
+  dialog .overflow-y-auto::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  dialog .overflow-y-auto::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.5);
+    border-radius: 20px;
+  }
+</style>
