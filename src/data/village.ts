@@ -8,8 +8,8 @@ export const village = {
         "Website resmi Desa Hukaea sebagai media informasi, publikasi potensi desa, serta sarana pelayanan informasi kepada masyarakat.",
 
     statistics: {
-        population: 1450,
-        households: 385,
+        population: 925,
+        households: 264,
         hamlets: 3,
         area: "12,5 km²",
         umkm: 42,
