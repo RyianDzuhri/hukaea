@@ -1,5 +1,10 @@
 ---
-import { MapPinned, Phone, Mail, Clock } from "lucide-astro";
+import {
+    MapPinHouse,
+    Phone,
+    Mail,
+} from "lucide-astro";
+
 import { village } from "../data/village";
 ---
 
@@ -45,26 +50,33 @@ import { village } from "../data/village";
                 class="overflow-hidden rounded-[36px] border border-slate-200 shadow-xl"
             >
 
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d58984.62983711832!2d121.9561995552419!3d-4.68423629435355!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2da2e9d4be86e83d%3A0xc9742a5527d7fe4!2sHukaea%2C%20Rarowatu%20Utara%2C%20Bombana%20Regency%2C%20South%20East%20Sulawesi!5e1!3m2!1sen!2sid!4v1784774982986!5m2!1sen!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d58984.62983711832!2d121.9561995552419!3d-4.68423629435355!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2da2e9d4be86e83d%3A0xc9742a5527d7fe4!2sHukaea%2C%20Rarowatu%20Utara%2C%20Bombana%20Regency%2C%20South%20East%20Sulawesi!5e1!3m2!1sen!2sid!4v1784774982986!5m2!1sen!2sid"
+                    class="h-[520px] w-full"
+                    style="border:0;"
+                    allowfullscreen
+                    loading="lazy"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                />
 
             </div>
 
             <!-- CARD -->
 
             <div
-                class="rounded-[36px] bg-white p-8 shadow-xl"
+                class="rounded-[36px] bg-white p-8 shadow-xl border border-slate-100"
             >
 
                 <div class="space-y-8">
 
                     <!-- Alamat -->
 
-                    <div class="flex gap-4">
+                    <div class="flex items-start gap-4">
 
                         <div
-                            class="flex h-14 w-14 items-center justify-center rounded-2xl bg-green-100"
+                            class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-green-100"
                         >
-                            <MapPinned
+                            <MapPinHouse
                                 class="h-7 w-7 text-green-600"
                             />
                         </div>
@@ -78,7 +90,7 @@ import { village } from "../data/village";
                             </h3>
 
                             <p
-                                class="mt-1 text-slate-500"
+                                class="mt-2 leading-7 text-slate-500"
                             >
                                 {village.contact.address}
                             </p>
@@ -89,10 +101,10 @@ import { village } from "../data/village";
 
                     <!-- Telepon -->
 
-                    <div class="flex gap-4">
+                    <div class="flex items-start gap-4">
 
                         <div
-                            class="flex h-14 w-14 items-center justify-center rounded-2xl bg-green-100"
+                            class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-green-100"
                         >
                             <Phone
                                 class="h-7 w-7 text-green-600"
@@ -108,7 +120,7 @@ import { village } from "../data/village";
                             </h3>
 
                             <p
-                                class="mt-1 text-slate-500"
+                                class="mt-2 text-slate-500"
                             >
                                 {village.contact.phone}
                             </p>
@@ -119,10 +131,10 @@ import { village } from "../data/village";
 
                     <!-- Email -->
 
-                    <div class="flex gap-4">
+                    <div class="flex items-start gap-4">
 
                         <div
-                            class="flex h-14 w-14 items-center justify-center rounded-2xl bg-green-100"
+                            class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-green-100"
                         >
                             <Mail
                                 class="h-7 w-7 text-green-600"
@@ -138,7 +150,7 @@ import { village } from "../data/village";
                             </h3>
 
                             <p
-                                class="mt-1 text-slate-500"
+                                class="mt-2 break-all text-slate-500"
                             >
                                 {village.contact.email}
                             </p>
@@ -154,7 +166,7 @@ import { village } from "../data/village";
                 <a
                     href={village.contact.mapsLink}
                     target="_blank"
-                    class="mt-10 inline-flex w-full items-center justify-center rounded-2xl bg-green-600 px-6 py-4 font-semibold text-white transition hover:bg-green-700"
+                    class="mt-10 inline-flex w-full items-center justify-center rounded-2xl bg-green-600 px-6 py-4 font-semibold text-white transition duration-300 hover:bg-green-700 hover:shadow-lg"
                 >
                     Buka di Google Maps
                 </a>
