@@ -2,38 +2,29 @@
 import {
     Users,
     House,
-    MapPinned,
-    Map,
-    Store,
+    UserRound,
 } from "lucide-astro";
 
 import { village } from "../data/village";
 
 const stats = [
     {
-        title: "Penduduk",
+        title: "Jumlah Penduduk",
         value: village.statistics.population.toLocaleString("id-ID"),
+        suffix: "Jiwa",
         icon: Users,
     },
     {
         title: "Kepala Keluarga",
-        value: village.statistics.households,
+        value: village.statistics.households.toLocaleString("id-ID"),
+        suffix: "KK",
         icon: House,
     },
     {
-        title: "Dusun",
-        value: village.statistics.hamlets,
-        icon: MapPinned,
-    },
-    {
-        title: "Luas Wilayah",
-        value: village.statistics.area,
-        icon: Map,
-    },
-    {
-        title: "UMKM",
-        value: village.statistics.umkm,
-        icon: Store,
+        title: "Komposisi Penduduk",
+        male: village.statistics.male.toLocaleString("id-ID"),
+        female: village.statistics.female.toLocaleString("id-ID"),
+        icon: UserRound,
     },
 ];
 ---
@@ -62,7 +53,7 @@ const stats = [
 
         </div>
 
-        <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-5">
+        <div class="mx-auto grid max-w-5xl gap-8 md:grid-cols-2 lg:grid-cols-3">
 
             {
                 stats.map((item) => {
@@ -82,11 +73,45 @@ const stats = [
                                 />
                             </div>
 
-                            <h3 class="mt-8 text-5xl font-black tracking-tight text-slate-900">
-                                {item.value}
-                            </h3>
+                            {
+                                item.value ? (
 
-                            <p class="mt-3 text-lg font-medium text-slate-500">
+                                    <>
+                                        <h3 class="mt-8 text-5xl font-black tracking-tight text-slate-900">
+                                            {item.value}
+                                        </h3>
+
+                                        <p class="mt-2 text-sm font-semibold uppercase tracking-wider text-green-600">
+                                            {item.suffix}
+                                        </p>
+                                    </>
+
+                                ) : (
+
+                                    <div class="mt-8 space-y-3">
+
+                                        <div class="flex items-center justify-center gap-3">
+
+                                            <span class="rounded-full bg-blue-100 px-3 py-1 text-sm font-semibold text-blue-700">
+                                                ♂ {item.male} Jiwa
+                                            </span>
+
+                                        </div>
+
+                                        <div class="flex items-center justify-center gap-3">
+
+                                            <span class="rounded-full bg-pink-100 px-3 py-1 text-sm font-semibold text-pink-700">
+                                                ♀ {item.female} Jiwa
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                )
+                            }
+
+                            <p class="mt-5 text-lg font-medium text-slate-500">
                                 {item.title}
                             </p>
 

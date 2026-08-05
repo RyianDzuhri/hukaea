@@ -11,8 +11,8 @@ export const village = {
         population: 925,
         households: 264,
         hamlets: 3,
-        area: "12,5 km²",
-        umkm: 42,
+        male: 478,
+        female: 447,
     },
 
     about: {
