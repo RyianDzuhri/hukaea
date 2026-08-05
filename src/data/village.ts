@@ -94,7 +94,7 @@ export const village = {
         address:
             "Desa Hukaea, Kecamatan Rarowatu Utara, Kabupaten Bombana, Sulawesi Tenggara",
 
-        phone: "08xxxxxxxxxx",
+        phone: "+62 812-4362-4240",
 
         email: "desahukaea@gmail.com",
 
@@ -112,9 +112,16 @@ export const village = {
 
     infographics: [
         {
-            title: "Infografis APBDes 2024",
-            description: "Ringkasan Anggaran Pendapatan dan Belanja Desa (APBDes) Tahun 2024 Desa Hukaea yang menampilkan rincian pendapatan, belanja, dan pembiayaan secara transparan.",
-            image: "image.png",
-        }
+            title: "Transparansi dalam Tata Kelola Akuntabel",
+            description:
+                "Infografis mengenai penerapan tata kelola pemerintahan Desa Hukaea yang transparan, akuntabel, partisipatif, efektif, dan efisien. Memuat prinsip-prinsip tata kelola, tujuan, serta langkah-langkah mewujudkan pelayanan publik yang berkualitas dan bertanggung jawab.",
+            image: "ilpol.png",
+        },
+        {
+            title: "Alur Pembuatan Surat di Desa",
+            description:
+            "Infografis yang menjelaskan alur pelayanan administrasi pembuatan surat di Kantor Desa Hukaea, mulai dari kedatangan pemohon, persiapan persyaratan, pengajuan permohonan, proses verifikasi, pencetakan, penandatanganan, hingga penyerahan surat kepada masyarakat secara cepat, transparan, dan tanpa pungutan liar.",
+            image: "alur-pelayanan.png",
+        },
     ],
 };
