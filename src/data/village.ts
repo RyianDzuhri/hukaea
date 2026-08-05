@@ -96,7 +96,7 @@ export const village = {
 
         phone: "08xxxxxxxxxx",
 
-        email: "desahukaea@gmail.com",
+        email: "desahukaea24@gmail.com",
 
         maps:
             "https://www.google.com/maps/embed?pb=",
